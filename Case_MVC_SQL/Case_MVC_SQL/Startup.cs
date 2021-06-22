@@ -25,7 +25,7 @@ namespace Case_MVC_SQL
             services.AddTransient<CreditCardService>();
 
             services.AddMvc();
-            var conn = @"Server=localhost;Database=FullStackCaseDB;Trusted_Connection=True; ConnectRetryCount=0";
+            var conn = @"Server=localhost;Database=CreditCards;Trusted_Connection=True; ConnectRetryCount=0";
             services.AddDbContext<ApplicationDBContext>(options => options.UseSqlServer(conn));
         }
 

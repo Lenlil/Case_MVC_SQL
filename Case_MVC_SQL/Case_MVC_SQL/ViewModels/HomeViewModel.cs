@@ -21,5 +21,7 @@ namespace Case_MVC_SQL.ViewModels
         public int NewExpMonth { get; set; }
         [Required]
         public int NewExpYear { get; set; }
+
+        public PagingViewModel PagingViewModel { get; set; } = new PagingViewModel();
     }
 }

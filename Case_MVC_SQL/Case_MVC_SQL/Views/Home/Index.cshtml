@@ -37,7 +37,7 @@
     <!-- Start service Area -->
     <section class="service-area pt-100" id="feature">
         <div class="container">
-            <h3>Kundlista</h3>
+            <h3>Kortlista</h3>
             <div class="row">
                 <table class="table">
                     <thead>
@@ -47,6 +47,7 @@
                             <th scope="col">Kortnummer</th>
                             <th scope="col">Utgångsdatum</th>
                             <th scope="col">Uppdaterad</th>
+                            <th scope="col"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -57,13 +58,14 @@
                                 <td>@creditCard.CardType</td>
                                 <td>@creditCard.CardNumber</td>
                                 <td>@creditCard.ExpMonth - @creditCard.ExpYear</td>
-                                <td>@creditCard.ModifiedDate</td>                      
+                                <td>@creditCard.ModifiedDate</td>
                                 <td><a asp-action="DeleteCard" asp-controller="Home" asp-route-id="@creditCard.CreditCardId">Radera kort</a></td>
                             </tr>
                         }
                     </tbody>
                 </table>
             </div>
+            @Html.Partial("_Pager", Model.PagingViewModel)
 
         </div>
     </section>

@@ -38,6 +38,7 @@ namespace Case_MVC_SQL.Repositories
             dbContext.CreditCards.Update(creditCard);
             dbContext.SaveChanges();
         }
+
         public void Delete(CreditCard creditCard)
         {
             dbContext.CreditCards.Attach(creditCard);
