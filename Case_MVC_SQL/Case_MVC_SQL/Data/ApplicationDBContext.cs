@@ -1,18 +1,19 @@
 ﻿using System;
+using Case_MVC_SQL.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
 #nullable disable
 
-namespace Case_MVC_SQL.Models
+namespace Case_MVC_SQL.Data
 {
-    public partial class CreditCardsContext : DbContext
+    public partial class ApplicationDBContext : DbContext
     {
-        public CreditCardsContext()
+        public ApplicationDBContext()
         {
         }
 
-        public CreditCardsContext(DbContextOptions<CreditCardsContext> options)
+        public ApplicationDBContext(DbContextOptions<ApplicationDBContext> options)
             : base(options)
         {
         }

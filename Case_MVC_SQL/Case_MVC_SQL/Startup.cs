@@ -2,9 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Case_MVC_SQL.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -16,6 +18,12 @@ namespace Case_MVC_SQL
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddTransient<ICreditCardRepository, CreditCardDbRepository>();
+            services.AddTransient<CreditCardService>();
+
+            services.AddMvc();
+            var conn = @"Server=localhost;Database=FullStackCaseDB;Trusted_Connection=True; ConnectRetryCount=0";
+            services.AddDbContext<ApplicationDBContext>(options => options.UseSqlServer(conn));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -30,10 +38,10 @@ namespace Case_MVC_SQL
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapGet("/", async context =>
-                {
-                    await context.Response.WriteAsync("Hello World!");
-                });
+                endpoints.MapControllerRoute(
+                   name: "default",
+                   pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapRazorPages();
             });
         }
     }
