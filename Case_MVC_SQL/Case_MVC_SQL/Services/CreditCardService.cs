@@ -29,30 +29,42 @@ namespace Case_MVC_SQL.Services
             return allCardTypes;
         }
 
-        //public bool AddNewCustomer(string newCustomerName, int newCountryID)
-        //{
-        //    Customer newCustomer = new Customer
-        //    {
-        //        Name = newCustomerName,
-        //        CountryId = newCountryID
-        //    };
+        public bool AddNewCreditCard(string newCardNumber, string newCardType, int newExpMonth, int newExpYear)
+        {
+            CreditCard newCreditCard = new CreditCard
+            {
+                CardType = newCardType,
+                CardNumber = newCardNumber,
+                ExpMonth = (byte)newExpMonth,
+                ExpYear = (short)newExpYear,
+                ModifiedDate = DateTime.Now
+            };
 
-        //    _customerRepository.Create(newCustomer);
+            try
+            {
+                _creditCardRepository.Create(newCreditCard);
+            }
+            catch (Exception)
+            {
+                return false;              
+            }          
+            return true;
+        }
 
-        //    return true;
-        //}
-        //public bool DeleteCard(int creditCardId)
-        //{
-        //    Customer newCustomer = new Customer
-        //    {
-        //        Name = newCustomerName,
-        //        CountryId = newCountryID
-        //    };
+        public bool DeleteCreditCard(int creditCardId)
+        {
+            var creditCardToRemove = _creditCardRepository.GetOneByID(creditCardId);
 
-        //    _customerRepository.Create(newCustomer);
-
-        //    return true;
-        //}
+            try
+            {
+                _creditCardRepository.Delete(creditCardToRemove);
+            }
+            catch (Exception)
+            {
+                return false;
+            }          
+            return true;
+        }
 
     }
 }

@@ -22,6 +22,8 @@ namespace Case_MVC_SQL.ViewModels
         [Required]
         public int NewExpYear { get; set; }
 
+        public int CardToDeleteId { get; set; }
+
         public PagingViewModel PagingViewModel { get; set; } = new PagingViewModel();
     }
 }

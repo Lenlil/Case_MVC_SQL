@@ -12,16 +12,21 @@
                     <div class="row justify-content-center align-items-start">
                         <form asp-action="CreateCreditCard" asp-controller="Home" method="post">
                             <div class="col-lg-12 cols">
-                                <input type="text" placeholder="" class="form-control mb-20" asp-for="@Model.NewCardNumber">
-                                <select placeholder="" class="form-control mb-20" asp-for="@Model.NewCardType">
+                                <p class="mt-1 mb-0">Kortnummer</p>
+                                <input type="number" minlength="14" maxlength="14" min="0" placeholder="14 siffror..." class="form-control" asp-for="@Model.NewCardNumber">
+                                <p class="mt-1 mb-0">Korttyp</p>
+                                <input type="text" placeholder="Korttyp" class="form-control" list="select-list-id" asp-for="@Model.NewCardType" />
+                                <datalist id="select-list-id" asp-for="@Model.NewCardType">
                                     @foreach (var cardType in Model.AllCardTypes)
                                     {
                                         <option value="@cardType">@cardType</option>
                                     }
-                                </select>
-                                <input type="text" placeholder="" class="form-control mb-20" asp-for="@Model.NewExpMonth">
-                                <input type="text" placeholder="" class="form-control mb-20" asp-for="@Model.NewExpYear">
-                                <button type=submit class="genric-btn default circle mb-30">Spara</button>
+                                </datalist>
+                                <p class="mt-1 mb-0">Månad</p>
+                                <input type="number" min="1" max="12" placeholder="Månad" class="form-control" asp-for="@Model.NewExpMonth">
+                                <p class="mt-1 mb-0">År</p>
+                                <input type="number" min="@DateTime.Now.Year" class="form-control" asp-for="@Model.NewExpYear">
+                                <button type=submit class="btn btn-success mt-3">Skapa kort</button>
                             </div>
                         </form>
                     </div>
@@ -59,7 +64,10 @@
                                 <td>@creditCard.CardNumber</td>
                                 <td>@creditCard.ExpMonth - @creditCard.ExpYear</td>
                                 <td>@creditCard.ModifiedDate</td>
-                                <td><a asp-action="DeleteCard" asp-controller="Home" asp-route-id="@creditCard.CreditCardId">Radera kort</a></td>
+                                <form asp-action="DeleteCreditCard" asp-controller="Home" method="post">
+                                    <input type="hidden" value=@creditCard.CreditCardId asp-for=@Model.CardToDeleteId/>
+                                    <td><input type="submit" value="Radera kort" class="btn btn-danger"/> </td>
+                                </form>
                             </tr>
                         }
                     </tbody>

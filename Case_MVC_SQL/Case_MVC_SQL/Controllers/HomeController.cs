@@ -11,30 +11,68 @@ using Microsoft.AspNetCore.Mvc;
 namespace Case_MVC_SQL.Controllers
 {
     public class HomeController : Controller
-    {
-        private ApplicationDBContext _context;
+    {     
         private CreditCardService _creditCardService;
    
-        public HomeController(ApplicationDBContext context, CreditCardService creditCardService)
-        {
-            _context = context;
+        public HomeController(CreditCardService creditCardService)
+        {        
             _creditCardService = creditCardService;            
         }
 
-        public IActionResult Index(string page, string pageSize)
+        public IActionResult Index(string page, string pageSize, string errorMessage)
         {
-            var allCreditCards = _creditCardService.GetAllCreditCards().OrderBy(x => x.CreditCardId);
-            var allCardTypes = _creditCardService.GetAllCardTypes();
+            if (errorMessage != null)
+            {
+                ModelState.AddModelError(string.Empty, errorMessage);
+            }
 
-            var model = CreateHomeViewModel(page, pageSize, allCreditCards);
+            var model = CreateHomeViewModel(page, pageSize);
 
             return View(model);
         }
 
-        public HomeViewModel CreateHomeViewModel(string page, string pageSize, IEnumerable<CreditCard> allCreditCards)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult CreateCreditCard(HomeViewModel model)
+        {
+            bool ok = true;
+
+            if (!ModelState.IsValid || !ok)
+            {            
+                return RedirectToAction("Index", new { errorMessage = "Vänligen fyll i alla nödvändiga fält" });
+            }
+
+            var addNewCardStatus =_creditCardService.AddNewCreditCard(model.NewCardNumber, model.NewCardType, model.NewExpMonth, model.NewExpYear);
+
+            if (!addNewCardStatus)
+            {
+                return RedirectToAction("Index", new { errorMessage = "Någonting gick fel, kortet kunde inte sparas." });
+            }
+
+            return RedirectToAction("Index", "Home");
+        }     
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteCreditCard(HomeViewModel model)
+        {          
+            var id = model.CardToDeleteId;      
+            var deleteCardStatus = _creditCardService.DeleteCreditCard(id);
+
+            if (!deleteCardStatus)
+            {
+                return RedirectToAction("Index", new { errorMessage = "Någonting gick fel, kortet kunde inte tas bort." });
+            }
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        public HomeViewModel CreateHomeViewModel(string page, string pageSize)
         {
             var homeViewModel = new HomeViewModel();
             int currentPage;
+
+            IEnumerable<CreditCard> allCreditCards = _creditCardService.GetAllCreditCards().OrderBy(x => x.CreditCardId);
 
             if (string.IsNullOrEmpty(pageSize))
                 homeViewModel.PagingViewModel.PageSize = 50;
