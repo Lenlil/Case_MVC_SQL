@@ -1,5 +1,70 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model HomeViewModel
+
+<section class="generic-banner relative">
+    <div class="container">
+        <div class="row height align-items-center justify-content-center">
+            <div class="col-lg-10">
+                <div class="generic-banner-content">
+
+                    <div class="row justify-content-center align-items-center flex-column pb-30">
+                        <h1>Lägg till nytt kreditkort</h1>
+                    </div>
+                    <div class="row justify-content-center align-items-start">
+                        <form asp-action="CreateCreditCard" asp-controller="Home" method="post">
+                            <div class="col-lg-12 cols">
+                                <input type="text" placeholder="" class="form-control mb-20" asp-for="@Model.NewCardNumber">
+                                <select placeholder="" class="form-control mb-20" asp-for="@Model.NewCardType">
+                                    @foreach (var cardType in Model.AllCardTypes)
+                                    {
+                                        <option value="@cardType">@cardType</option>
+                                    }
+                                </select>
+                                <input type="text" placeholder="" class="form-control mb-20" asp-for="@Model.NewExpMonth">
+                                <input type="text" placeholder="" class="form-control mb-20" asp-for="@Model.NewExpYear">
+                                <button type=submit class="genric-btn default circle mb-30">Spara</button>
+                            </div>
+                        </form>
+                    </div>
+                    <span> @Html.ValidationSummary(false, "", new { @class = "text-danger" })</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- About Generic Start -->
+<div class="main-wrapper">
+    <!-- Start service Area -->
+    <section class="service-area pt-100" id="feature">
+        <div class="container">
+            <h3>Kundlista</h3>
+            <div class="row">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Id</th>
+                            <th scope="col">Korttyp</th>
+                            <th scope="col">Kortnummer</th>
+                            <th scope="col">Utgångsdatum</th>
+                            <th scope="col">Uppdaterad</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var creditCard in Model.AllCreditCards)
+                        {
+                            <tr>
+                                <td scope="row">@creditCard.CreditCardId</td>
+                                <td>@creditCard.CardType</td>
+                                <td>@creditCard.CardNumber</td>
+                                <td>@creditCard.ExpMonth - @creditCard.ExpYear</td>
+                                <td>@creditCard.ModifiedDate</td>                      
+                                <td><a asp-action="DeleteCard" asp-controller="Home" asp-route-id="@creditCard.CreditCardId">Radera kort</a></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </section>
+</div>

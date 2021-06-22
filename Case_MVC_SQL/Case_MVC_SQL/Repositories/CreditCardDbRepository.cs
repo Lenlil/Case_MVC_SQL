@@ -21,7 +21,7 @@ namespace Case_MVC_SQL.Repositories
         {
             dbContext.CreditCards.Add(creditCard);
             dbContext.SaveChanges();
-        }
+        } 
 
         public IQueryable<CreditCard> GetAll()
         {
@@ -36,6 +36,12 @@ namespace Case_MVC_SQL.Repositories
         public void Update(CreditCard creditCard)
         {
             dbContext.CreditCards.Update(creditCard);
+            dbContext.SaveChanges();
+        }
+        public void Delete(CreditCard creditCard)
+        {
+            dbContext.CreditCards.Attach(creditCard);
+            dbContext.CreditCards.Remove(creditCard);
             dbContext.SaveChanges();
         }
     }

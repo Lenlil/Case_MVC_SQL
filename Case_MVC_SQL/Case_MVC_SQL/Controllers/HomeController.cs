@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Case_MVC_SQL.Data;
+using Case_MVC_SQL.Services;
+using Case_MVC_SQL.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Case_MVC_SQL.Controllers
@@ -20,13 +22,13 @@ namespace Case_MVC_SQL.Controllers
 
         public IActionResult Index()
         {
-            var allCountries = _countryService.GetAllCountries().OrderBy(x => x.Name).ToList();
-            var allCustomers = _customerService.GetAllCustomers();
+            var allCreditCards = _creditCardService.GetAllCreditCards().OrderBy(x => x.CreditCardId).ToList();
+            var allCardTypes = _creditCardService.GetAllCardTypes();
 
             var model = new HomeViewModel
             {
-                AllCountries = allCountries,
-                AllCustomers = allCustomers
+                AllCreditCards = allCreditCards,
+                AllCardTypes = allCardTypes
             };
 
             return View(model);

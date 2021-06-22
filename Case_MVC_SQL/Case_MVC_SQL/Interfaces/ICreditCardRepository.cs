@@ -11,6 +11,7 @@ namespace Case_MVC_SQL.Interfaces
         IQueryable<CreditCard> GetAll();
         CreditCard GetOneByID(int creditCardId);
         void Create(CreditCard creditCard);
-        void Update(CreditCard creditCard);        
+        void Update(CreditCard creditCard);
+        void Delete(CreditCard creditCard);
     }
 }

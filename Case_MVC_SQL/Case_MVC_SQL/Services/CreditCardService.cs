@@ -16,9 +16,43 @@ namespace Case_MVC_SQL.Services
             _creditCardRepository = repository;
         }
 
-        public List<CreditCard> GetAllCountries()
+        public List<CreditCard> GetAllCreditCards()
         {
             return _creditCardRepository.GetAll().ToList();
         }
+
+        public List<string> GetAllCardTypes()
+        {
+            var allCreditCards = GetAllCreditCards();
+            var allCardTypes = allCreditCards.GroupBy(elem => elem.CardType).Select(group => group.First().CardType).ToList();
+
+            return allCardTypes;
+        }
+
+        //public bool AddNewCustomer(string newCustomerName, int newCountryID)
+        //{
+        //    Customer newCustomer = new Customer
+        //    {
+        //        Name = newCustomerName,
+        //        CountryId = newCountryID
+        //    };
+
+        //    _customerRepository.Create(newCustomer);
+
+        //    return true;
+        //}
+        //public bool DeleteCard(int creditCardId)
+        //{
+        //    Customer newCustomer = new Customer
+        //    {
+        //        Name = newCustomerName,
+        //        CountryId = newCountryID
+        //    };
+
+        //    _customerRepository.Create(newCustomer);
+
+        //    return true;
+        //}
+
     }
 }
